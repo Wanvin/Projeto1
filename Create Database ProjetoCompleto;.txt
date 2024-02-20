@@ -1,0 +1,53 @@
+Create Database ProjetoCompleto;
+
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+CREATE TABLE dbo.Usuarios
+	(
+	Ide uniqueidentifier NOT NULL ROWGUIDCOL,
+	Codigo smallint NOT NULL IDENTITY (1, 1),
+	Usuario nchar(30) NOT NULL,
+	Senha nchar(30) NOT NULL,
+	Acesso smallint NOT NULL,
+	Status bit NOT NULL
+	)  ON [PRIMARY]
+GO
+ALTER TABLE dbo.Usuarios ADD CONSTRAINT
+	DF_Usuarios_Ide DEFAULT (newid()) FOR Ide
+GO
+ALTER TABLE dbo.Usuarios ADD CONSTRAINT
+	PK_Usuarios PRIMARY KEY CLUSTERED 
+	(
+	Ide
+	) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+GO
+ALTER TABLE dbo.Usuarios SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+
+USE [ProjetoCompleto]
+GO
+
+INSERT INTO [dbo].[Usuarios]
+           (Ide,
+           Usuario,
+           Senha,
+           Acesso,
+           Status)
+     VALUES
+           (NEWID(),
+           'admin',
+           'admin',
+           1,
+           0)
+GO
