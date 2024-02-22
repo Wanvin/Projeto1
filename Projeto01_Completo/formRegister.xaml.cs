@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Projeto01_Completo.DAL;
+using Projeto01_Completo.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,16 +29,29 @@ namespace Projeto01_Completo
 
         private void btnCadastrar_Click(object sender, RoutedEventArgs e)
         {
-            if (txbUsuario.Text == "" && txbSenha.ToString() == "" && txbConfirmeSenha.ToString() == "")
+            Usuarios usuarios = new Usuarios();
+            usuarios.Usuario = txbUsuario.Text;
+            usuarios.Senha = txbSenha.Password;
+            usuarios.ConfirmeSenha = txbConfirmeSenha.Password;
+
+            if (usuarios.Usuario == "" || usuarios.Senha == "" || usuarios.ConfirmeSenha == "")
             {
-                MessageBox.Show("Usuário e senha não foram preenchidos corretamente.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Usuário e senha não foram preenchidos corretamente.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);           
             }
+
             else if (txbSenha.Password != txbConfirmeSenha.Password)
             {
                 MessageBox.Show("As senhas não correspondem.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
                 txbSenha.Clear();
                 txbConfirmeSenha.Clear();
                 txbSenha.Focus();
+            }
+            else if (new Usuarios { Usuario = txbUsuario.Text}.ValidarUsuario())
+            {
+                MessageBox.Show("O nome de usuario escolhido já está em uso. Por favor escolha um novo nome de usuario.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
+                
+                txbUsuario.Clear();
+                txbUsuario.Focus();
             }
             else
             {
@@ -52,28 +66,22 @@ namespace Projeto01_Completo
                     AcessoBD.ExecutarCommand(command);
                     AcessoBD.Desconectar();
                     MessageBox.Show("Parabéns! Seu cadastro foi concluído com sucesso. \nClique em 'Fazer Login' para acessar sua conta.", "Cadastrado Concluido", MessageBoxButton.OK);
-                    txbUsuario.Text = "";
-                    txbSenha.Clear() ;
+                    txbUsuario.Clear();
+                    txbSenha.Clear();
                     txbConfirmeSenha.Clear();
-
+                    txbUsuario.Focus();
+                    
                 }
                 catch (SqlException ex)
                 {
-
                     MessageBox.Show(ex.ToString());
-                }
-                
+                }                              
             }            
-        }
-
-        private void ckbExibirSenha_Checked(object sender, RoutedEventArgs e)
-        {
-                    
         }
 
         private void btnLimparDados_Click(object sender, RoutedEventArgs e)
         {
-            txbUsuario.Text = "";
+            txbUsuario.Clear();
             txbSenha.Clear();
             txbConfirmeSenha.Clear();
             txbUsuario.Focus();
@@ -84,5 +92,23 @@ namespace Projeto01_Completo
             new MainWindow().Show();
             this.Close();
         }
+
+        private void MostrarSenha_Checked(object sender, RoutedEventArgs e)
+        {
+            txbExibirSenha.Text = txbSenha.Password;
+            txbExibirConfirmaSenha.Text = txbConfirmeSenha.Password;
+            txbSenha.Visibility = Visibility.Collapsed;
+            txbConfirmeSenha.Visibility = Visibility.Collapsed;
+            txbExibirSenha.Visibility = Visibility.Visible;
+            txbExibirConfirmaSenha.Visibility = Visibility.Visible;
+        }
+        private void MostrarSenha_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txbExibirSenha.Visibility = Visibility.Collapsed;
+            txbExibirConfirmaSenha.Visibility = Visibility.Collapsed;
+            txbSenha.Visibility = Visibility.Visible;
+            txbConfirmeSenha.Visibility = Visibility.Visible;
+        }
+
     }
 }

@@ -28,9 +28,13 @@ namespace Projeto01_Completo
 
         private void btnEntrar_Click(object sender, RoutedEventArgs e)
         {
+            Usuarios usuarios = new Usuarios();
+            usuarios.Usuario = txbUsuario.Text;
+            usuarios.Senha = txbSenha.Password;
+
             try
             {
-                string query = "Select Usuario from Usuarios Where Usuario = '" + txbUsuario.Text + "' and Senha = '" + txbSenha.Password + "' and Status = 0";
+                string query = "Select Usuario from Usuarios Where Usuario = '" + usuarios.Usuario + "' and Senha = '" + usuarios.Senha + "' and Status = 0";
                 using var conn = AcessoBD.Conectar();
                 using var command = new SqlCommand(query, conn);
                 using var reader = command.ExecuteReader();
@@ -38,6 +42,13 @@ namespace Projeto01_Completo
                 {
 
                     MessageBox.Show("Logado");
+                }
+                else 
+                {
+                    MessageBox.Show("Credenciais inválidas", "Falha ao logar" , MessageBoxButton.OK, MessageBoxImage.Error);
+                    txbUsuario.Clear();
+                    txbSenha.Clear();
+                    txbUsuario.Focus();
                 }
             }
             catch (Exception ex)
@@ -52,5 +63,22 @@ namespace Projeto01_Completo
             this.Close();
         }
 
+        private void btnLimparDados_Click(object sender, RoutedEventArgs e)
+        {
+            txbUsuario.Clear();
+            txbSenha.Clear();
+        }
+
+        private void MostrarSenha_Checked(object sender, RoutedEventArgs e)
+        {
+            txbMostrarSenha.Text = txbSenha.Password;
+            txbSenha.Visibility = Visibility.Collapsed;
+            txbMostrarSenha.Visibility = Visibility.Visible;
+        }
+        private void MostrarSenha_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txbMostrarSenha.Visibility = Visibility.Collapsed;
+            txbSenha.Visibility = Visibility.Visible;
+        }
     }
 }
