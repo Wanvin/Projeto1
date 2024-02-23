@@ -34,9 +34,12 @@ namespace Projeto01_Completo
 
             try
             {
-                string query = "Select Usuario from Usuarios Where Usuario = '" + usuarios.Usuario + "' and Senha = '" + usuarios.Senha + "' and Status = 0";
+                string query = "Select Usuario from Usuarios Where Usuario = @Usuario and Senha = @Senha and Status = 0";
                 using var conn = AcessoBD.Conectar();
                 using var command = new SqlCommand(query, conn);
+                string[] names = new string[] { "@Usuario", "@Senha" };
+                object[] values = new object[] { usuarios.Usuario, usuarios.Senha };
+                AcessoBD.FillParameters(command, names, values);
                 using var reader = command.ExecuteReader();
                 if (reader.Read())
                 {

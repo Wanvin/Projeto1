@@ -19,6 +19,7 @@ namespace Projeto01_Completo.DTO
         public string ConfirmeSenha { get; set; } = string.Empty;
         public int Acesso { get; set; }
         public bool Status {  get; set; }
+
         public bool ValidarUsuario()
         {
 
@@ -34,9 +35,9 @@ namespace Projeto01_Completo.DTO
             
             int count = (int)reader.ExecuteScalar();
             AcessoBD.Desconectar();
-            if (count > 0) { return true; }
-            else { return false; }   
+            if (count > 0) { return true; } 
+            return false;        
                        
-        }    
+        }  
     }
 }

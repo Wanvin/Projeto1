@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using Projeto01_Completo.DAL;
 using Projeto01_Completo.DTO;
 using System;
@@ -34,9 +35,10 @@ namespace Projeto01_Completo
             usuarios.Senha = txbSenha.Password;
             usuarios.ConfirmeSenha = txbConfirmeSenha.Password;
 
-            if (usuarios.Usuario == "" || usuarios.Senha == "" || usuarios.ConfirmeSenha == "")
-            {
-                MessageBox.Show("Usuário e senha não foram preenchidos corretamente.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);           
+            if (usuarios.Usuario == String.Empty || usuarios.Senha == String.Empty || usuarios.ConfirmeSenha == String.Empty)
+            { 
+                MessageBox.Show("Usuário e senha não foram preenchidos corretamente.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Testar com Exception
             }
 
             else if (txbSenha.Password != txbConfirmeSenha.Password)
