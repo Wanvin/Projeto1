@@ -32,33 +32,48 @@ namespace Projeto01_Completo
             usuarios.Usuario = txbUsuario.Text;
             usuarios.Senha = txbSenha.Password;
 
-            try
+            if (String.IsNullOrWhiteSpace(usuarios.Usuario))
             {
-                string query = "Select Usuario from Usuarios Where Usuario = @Usuario and Senha = @Senha and Status = 0";
-                using var conn = AcessoBD.Conectar();
-                using var command = new SqlCommand(query, conn);
-                string[] names = new string[] { "@Usuario", "@Senha" };
-                object[] values = new object[] { usuarios.Usuario, usuarios.Senha };
-                AcessoBD.FillParameters(command, names, values);
-                using var reader = command.ExecuteReader();
-                if (reader.Read())
+                txbUsuario.Focus();                       
+            }
+
+            else if (String.IsNullOrEmpty(usuarios.Senha))
+            {
+                txbSenha.Focus();
+            }
+
+            else 
+            {
+                try
+                {
+                    string query = "Select Usuario from Usuarios Where Usuario = @Usuario and Senha = @Senha and Status = 0";
+                    using var conn = AcessoBD.Conectar();
+                    using var command = new SqlCommand(query, conn);
+                    string[] names = new string[] { "@Usuario", "@Senha" };
+                    object[] values = new object[] { usuarios.Usuario, usuarios.Senha };
+                    AcessoBD.FillParameters(command, names, values);
+                    using var reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+
+                        MessageBox.Show("Logado");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Credenciais inválidas", "Falha ao logar", MessageBoxButton.OK, MessageBoxImage.Error);
+                        txbUsuario.Clear();
+                        txbSenha.Clear();
+                        txbUsuario.Focus();
+                    }
+                }
+                catch (Exception ex)
                 {
 
-                    MessageBox.Show("Logado");
+                    MessageBox.Show(ex.ToString());
                 }
-                else 
-                {
-                    MessageBox.Show("Credenciais inválidas", "Falha ao logar" , MessageBoxButton.OK, MessageBoxImage.Error);
-                    txbUsuario.Clear();
-                    txbSenha.Clear();
-                    txbUsuario.Focus();
-                }
-            }
-            catch (Exception ex)
-            {
 
-                MessageBox.Show(ex.ToString());
             }
+            
         }
         private void lblCadastreAqui_Click(object sender, RoutedEventArgs e)
         {

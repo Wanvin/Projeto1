@@ -34,11 +34,19 @@ namespace Projeto01_Completo
             usuarios.Usuario = txbUsuario.Text;
             usuarios.Senha = txbSenha.Password;
             usuarios.ConfirmeSenha = txbConfirmeSenha.Password;
+                    
 
-            if (usuarios.Usuario == String.Empty || usuarios.Senha == String.Empty || usuarios.ConfirmeSenha == String.Empty)
+            if (String.IsNullOrWhiteSpace(usuarios.Usuario))
+            {
+                txbUsuario.Focus();                                          
+            }
+            else if (String.IsNullOrWhiteSpace(usuarios.Senha)) 
             { 
-                MessageBox.Show("Usuário e senha não foram preenchidos corretamente.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
-                // Testar com Exception
+                txbSenha.Focus();              
+            }
+            else if (String.IsNullOrWhiteSpace(usuarios.ConfirmeSenha))
+            {
+                txbConfirmeSenha.Focus();               
             }
 
             else if (txbSenha.Password != txbConfirmeSenha.Password)
@@ -47,13 +55,15 @@ namespace Projeto01_Completo
                 txbSenha.Clear();
                 txbConfirmeSenha.Clear();
                 txbSenha.Focus();
+                txbSenha.BorderBrush = Brushes.Red;
             }
-            else if (new Usuarios { Usuario = txbUsuario.Text}.ValidarUsuario())
+            else if (new Usuarios { Usuario = txbUsuario.Text }.ValidarUsuario())
             {
                 MessageBox.Show("O nome de usuario escolhido já está em uso. Por favor escolha um novo nome de usuario.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
-                
+
                 txbUsuario.Clear();
                 txbUsuario.Focus();
+                txbUsuario.BorderBrush = Brushes.Red;
             }
             else
             {
@@ -63,7 +73,7 @@ namespace Projeto01_Completo
                     using var conn = AcessoBD.Conectar();
                     using var command = new SqlCommand(query, conn);
                     string[] names = new string[] { "@Ide", "@Usuario", "@Senha", "@Acesso", "@Status" };
-                    object[] values = new object[] { Guid.NewGuid(), txbUsuario.Text, txbSenha.Password, 1, 0};
+                    object[] values = new object[] { Guid.NewGuid(), txbUsuario.Text, txbSenha.Password, 1, 0 };
                     AcessoBD.FillParameters(command, names, values);
                     AcessoBD.ExecutarCommand(command);
                     AcessoBD.Desconectar();
@@ -72,12 +82,11 @@ namespace Projeto01_Completo
                     txbSenha.Clear();
                     txbConfirmeSenha.Clear();
                     txbUsuario.Focus();
-                    
                 }
                 catch (SqlException ex)
                 {
                     MessageBox.Show(ex.ToString());
-                }                              
+                }
             }            
         }
 
@@ -86,7 +95,7 @@ namespace Projeto01_Completo
             txbUsuario.Clear();
             txbSenha.Clear();
             txbConfirmeSenha.Clear();
-            txbUsuario.Focus();
+            txbUsuario.Focus();            
         }
 
         private void lblFazerLogin_Click(object sender, RoutedEventArgs e) 

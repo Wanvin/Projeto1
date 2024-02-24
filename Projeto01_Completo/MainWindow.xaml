@@ -10,7 +10,7 @@
         
         <Label Content="Faça Login" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" FontSize="25" FontWeight="Bold" Foreground="#FFAD66EC" />
         <Label Content="Usuário:" HorizontalAlignment="Left" Margin="20,144,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="#A4A5A9"/>
-        <TextBox x:Name="txbUsuario" Margin="20,173,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" TextAlignment="Center" VerticalContentAlignment="Center" FontWeight="Regular" Background="#E6E7E9" BorderBrush="#FFAD66EC"/>
+        <TextBox x:Name="txbUsuario" Margin="20,173,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="25" TextAlignment="Center" VerticalContentAlignment="Center" FontWeight="Regular" Background="#E6E7E9" BorderBrush="#FFAD66EC" SelectionBrush="Red" />
         <Label Content="Senha:" HorizontalAlignment="Left" Margin="20,203,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="#A4A5A9"/>
         <PasswordBox  x:Name="txbSenha" Margin="20,232,20,0" VerticalAlignment="Top" Height="25" VerticalContentAlignment="Center" FontWeight="Regular" Background="#E6E7E9" BorderBrush="#FFAD66EC" HorizontalContentAlignment="Center"/>
         <CheckBox x:Name="ckbExibirSenha" Content="Exibir Senha" Margin="0,264,20,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.785,0.93" HorizontalAlignment="Right" Width="98" Cursor="Hand" BorderBrush="#FFAD66EC" Height="15" Foreground="#A4A5A9" Checked="MostrarSenha_Checked" Unchecked="MostrarSenha_Unchecked" />
