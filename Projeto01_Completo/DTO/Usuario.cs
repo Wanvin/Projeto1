@@ -35,8 +35,8 @@ namespace Projeto01_Completo.DTO
             
             int count = (int)reader.ExecuteScalar();
             AcessoBD.Desconectar();
-            if (count > 0) { return true; } 
-            return false;        
+           
+            return count > 0;        
                        
         }  
     }
