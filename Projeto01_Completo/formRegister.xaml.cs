@@ -38,7 +38,9 @@ namespace Projeto01_Completo
 
             if (String.IsNullOrWhiteSpace(usuarios.Usuario))
             {
-                txbUsuario.Focus();                                          
+                txbUsuario.Focus();
+                ExceptionBook.ExceptionConsultar(1);
+                MessageBox.Show(ExceptionBook.ExceptionConsultar(1));                
             }
             else if (String.IsNullOrWhiteSpace(usuarios.Senha)) 
             { 
@@ -62,7 +64,7 @@ namespace Projeto01_Completo
                 MessageBox.Show("O nome de usuario escolhido já está em uso. Por favor escolha um novo nome de usuario.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 txbUsuario.Clear();
-                txbUsuario.Focus();
+                txbUsuario.Focus();                
                 txbUsuario.BorderBrush = Brushes.Red;
             }
             else
@@ -121,5 +123,9 @@ namespace Projeto01_Completo
             txbConfirmeSenha.Visibility = Visibility.Visible;
         }
 
+        private void txbUsuario_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txbUsuario.BorderBrush = Brushes.Red;
+        }
     }
 }
