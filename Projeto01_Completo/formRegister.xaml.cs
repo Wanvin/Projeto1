@@ -38,34 +38,33 @@ namespace Projeto01_Completo
 
             if (String.IsNullOrWhiteSpace(usuarios.Usuario))
             {
-                txbUsuario.Focus();
-                ExceptionBook.ExceptionConsultar(1);
-                MessageBox.Show(ExceptionBook.ExceptionConsultar(1));                
+                MessageBox.Show("O usuário não foi preenchido!");
+                txbUsuario.Focus();   
             }
             else if (String.IsNullOrWhiteSpace(usuarios.Senha)) 
-            { 
-                txbSenha.Focus();              
+            {
+                MessageBox.Show("A senha não foi preenchida");
+                txbSenha.Focus();
             }
             else if (String.IsNullOrWhiteSpace(usuarios.ConfirmeSenha))
             {
-                txbConfirmeSenha.Focus();               
+                MessageBox.Show("A confirmação de senha não foi preenchida");
+                txbConfirmeSenha.Focus();  
             }
 
             else if (txbSenha.Password != txbConfirmeSenha.Password)
             {
-                MessageBox.Show("As senhas não correspondem.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("As senhas não correspondem.", "Falha ao Cadastrar");
                 txbSenha.Clear();
                 txbConfirmeSenha.Clear();
                 txbSenha.Focus();
-                txbSenha.BorderBrush = Brushes.Red;
+ 
             }
             else if (new Usuarios { Usuario = txbUsuario.Text }.ValidarUsuario())
             {
                 MessageBox.Show("O nome de usuario escolhido já está em uso. Por favor escolha um novo nome de usuario.", "Falha ao Cadastrar", MessageBoxButton.OK, MessageBoxImage.Error);
-
                 txbUsuario.Clear();
-                txbUsuario.Focus();                
-                txbUsuario.BorderBrush = Brushes.Red;
+                txbUsuario.Focus();              
             }
             else
             {
@@ -121,11 +120,6 @@ namespace Projeto01_Completo
             txbExibirConfirmaSenha.Visibility = Visibility.Collapsed;
             txbSenha.Visibility = Visibility.Visible;
             txbConfirmeSenha.Visibility = Visibility.Visible;
-        }
-
-        private void txbUsuario_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            txbUsuario.BorderBrush = Brushes.Red;
         }
     }
 }

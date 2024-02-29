@@ -16,11 +16,13 @@ namespace Projeto01_Completo.DAL
             
             {
                 case 1:
-                    return "Campo Usuário Vázio";                    
+                    return "O usuário não foi preeenchido!";                    
                 case 2:
-                    return " ";
+                    return "A senha não foi preenchida!";
+                case 3:
+                    return "Confirmação de senha não foi preenchido";
                 default:
-                    return " Default";                  
+                    return "Erro ao efetuar operação!";                  
             
             
             }
